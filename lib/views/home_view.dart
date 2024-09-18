@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yugiapp/widgets/archetype_dropdown.dart';
+import 'package:yugiapp/widgets/monster_card.dart';
 import '../providers/card_provider.dart';
-import '../widgets/monster_card.dart';
-import '../widgets/archetype_dropdown.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -35,10 +35,10 @@ class HomeView extends StatelessWidget {
                     ),
                     itemCount: cardProvider.cards.length,
                     itemBuilder: (context, index) {
-                      return monsterCard(cardProvider.cards[index]);
+                      return monsterCard(cardProvider.cards[index], context);
                     },
                   ),
-                ),
+                )
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yugiapp/providers/card_detail_provider.dart';
 import 'providers/card_provider.dart';
 import 'views/home_view.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => CardDetailProvider()),
         ChangeNotifierProvider(create: (_) => CardProvider()),
       ],
       child: MaterialApp(
