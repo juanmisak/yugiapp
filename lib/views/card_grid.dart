@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yugiapp/views/card_detail_view.dart';
 import '../models/card_model.dart';
 
 class CardGrid extends StatelessWidget {
@@ -11,36 +10,35 @@ class CardGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // Número de columnas en el grid
-        childAspectRatio: 0.7, // Ajusta el aspecto de las tarjetas
+        crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
       itemCount: cards.length,
-      itemBuilder: (ctx, index) {
+      itemBuilder: (context, index) {
         final card = cards[index];
+
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CardDetailView(cardName: card.name),
-              ),
-            );
+            Navigator.pushNamed(context, '/cardDetail', arguments: card.name);
           },
           child: Card(
             elevation: 5,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(35),
             ),
             child: Column(
               children: [
                 Expanded(
-                  child: Image.network(
-                    card.cardImages.first.imageUrl,
+                  child: FadeInImage.assetNetwork(
+                    placeholder:
+                        'assets/images/placeholder.png', // Imagen local como placeholder
+                    image: card.cardImages.first.imageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.error),
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                          'assets/images/placeholder.png'); // En caso de error, muestra el placeholder
+                    },
                   ),
                 ),
                 Padding(
@@ -48,8 +46,8 @@ class CardGrid extends StatelessWidget {
                   child: Text(
                     card.name,
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),

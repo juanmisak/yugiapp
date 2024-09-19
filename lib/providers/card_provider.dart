@@ -22,6 +22,9 @@ class CardProvider with ChangeNotifier {
     final cards = await _apiService.getCardsByArchetype(archetype);
     _cards = cards.map((card) => YuGiOhCard.fromJson(card)).toList();
 
+    // Remove card if has banlist info.
+    _cards.removeWhere((card) => card.hasBanlistInfo);
+
     _isLoading = false;
     notifyListeners();
   }

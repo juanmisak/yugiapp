@@ -23,9 +23,6 @@ class CardDetailViewState extends State<CardDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.cardName),
-      ),
       body: Consumer<CardDetailProvider>(
         builder: (context, cardDetailProvider, child) {
           if (cardDetailProvider.isLoading) {
@@ -42,46 +39,76 @@ class CardDetailViewState extends State<CardDetailView> {
 
           final card = cardDetailProvider.card!;
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image.network(
-                    card.cardImages.first.imageUrlCropped,
-                    fit: BoxFit.contain,
-                    height: 200,
+          return CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 300,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(card.name),
+                  background: Hero(
+                    tag: card.id,
+                    child: Image.network(
+                      card.cardImages.first.imageUrlCropped,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Name: ${card.name}',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Name: ${card.name}',
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 10),
+                          Text('Type: ${card.type}'),
+                          const SizedBox(height: 10),
+                          Text('Description: ${card.description}'),
+                          const SizedBox(height: 10),
+                          Text('Description: ${card.description}'),
+                          const SizedBox(height: 10),
+                          Text('Description: ${card.description}'),
+                          const SizedBox(height: 10),
+                          Text('Description: ${card.description}'),
+                          const SizedBox(height: 10),
+                          Text('Description: ${card.description}'),
+                          const SizedBox(height: 10),
+                          Text('ATK: ${card.atk}  |  DEF: ${card.def}'),
+                          const SizedBox(height: 10),
+                          Text(
+                              'Level: ${card.level}  |  Attribute: ${card.attribute}'),
+                          const SizedBox(height: 10),
+                          Text('Race: ${card.race}'),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Card Sets:',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          ...card.cardSets.map((set) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4.0),
+                                child: Text(
+                                    '${set.setName} - ${set.setRarity} - \$${set.setPrice}'),
+                              )),
+                          const SizedBox(height: 100),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                Text('Type: ${card.type}'),
-                const SizedBox(height: 10),
-                Text('Description: ${card.description}'),
-                const SizedBox(height: 10),
-                Text('ATK: ${card.atk}  |  DEF: ${card.def}'),
-                const SizedBox(height: 10),
-                Text('Level: ${card.level}  |  Attribute: ${card.attribute}'),
-                const SizedBox(height: 10),
-                Text('Race: ${card.race}'),
-                const SizedBox(height: 20),
-                const Text(
-                  'Card Sets:',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                ...card.cardSets.map((set) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(
-                          '${set.setName} - ${set.setRarity} - \$${set.setPrice}'),
-                    )),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

@@ -14,6 +14,7 @@ class YuGiOhCard {
   final List<CardSet> cardSets;
   final List<CardImage> cardImages;
   final List<CardPrice> cardPrices;
+  final bool hasBanlistInfo;
 
   YuGiOhCard({
     required this.id,
@@ -31,6 +32,7 @@ class YuGiOhCard {
     required this.cardSets,
     required this.cardImages,
     required this.cardPrices,
+    required this.hasBanlistInfo,
   });
 
   factory YuGiOhCard.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class YuGiOhCard {
           .toList(),
       atk: json['atk'] ?? -1,
       def: json['def'] ?? -1,
+      hasBanlistInfo: json.containsKey('banlist_info'),
     );
   }
 }
