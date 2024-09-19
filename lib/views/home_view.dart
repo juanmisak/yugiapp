@@ -18,6 +18,7 @@ class HomeView extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 150.0,
             pinned: true,
+            floating: true,
             flexibleSpace: FlexibleSpaceBar(
               title: const Text('Yu-Gi-Oh! Cards'),
               background: Container(
